@@ -45,6 +45,9 @@ text {
 // get the data
 d3.csv("data/force.csv", function(data) {
 
+
+
+
 /**  search functionality **/
 d3.select("#search")
   .on("keyup", function() { // filter according to key pressed
@@ -71,7 +74,10 @@ d3.select("#search")
       })
 
 
+
 var nodes = {};
+
+
 
 // Compute the distinct nodes from the links.
 newLinks.forEach(function(link) {
