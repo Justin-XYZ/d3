@@ -37,6 +37,9 @@ text {
 <body>
 <script>
 
+// get the data
+d3.csv("data/force.csv", function(error, links) {
+
 d3.select("body").append("div")
   .attr("class", "SearchBar")
   .append("p")
@@ -49,9 +52,6 @@ d3.select(".SearchBar")
     .attr("id", "search")
     .attr("type", "text")
     .attr("placeholder", "Search...");
-
-// get the data
-d3.csv("data/force.csv", function(error, links) {
 
 /**  search functionality **/
 d3.select("#search")
