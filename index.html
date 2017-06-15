@@ -35,28 +35,20 @@ text {
 
 </style>
 <body>
+  <div class="SearchBar">
+    <p class="SearchBar">Search By Name:</p>
+    <input class="SearchBar" id="search" type="text" placeholder="Search..."
+  </div>
+
 <script>
 
 // get the data
-d3.csv("data/force.csv", function(error, links) {
-
-d3.select("body").append("div")
-  .attr("class", "SearchBar")
-  .append("p")
-    .attr("class", "SearchBar")
-    .text("Search By name:");
-
-d3.select(".SearchBar")
-  .append("input")
-    .attr("class", "SearchBar")
-    .attr("id", "search")
-    .attr("type", "text")
-    .attr("placeholder", "Search...");
+d3.csv("data/force.csv", function(data) {
 
 /**  search functionality **/
 d3.select("#search")
   .on("keyup", function() { // filter according to key pressed
-    var newLinks = links,
+    var newLinks = data,
         text = this.value.trim();
 
     var searchResults = newLinks.map(function(r) {
