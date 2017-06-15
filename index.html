@@ -22,17 +22,66 @@ text {
   pointer-events: none;
 }
 
+.SearchBar {
+  display: inline;
+  position: relative;
+  left: 1%;
+}
+
+.SearchBar input {
+  position: relative;
+  left: 2%;
+}
+
 </style>
 <body>
 <script>
 
+d3.select("body").append("div")
+  .attr("class", "SearchBar")
+  .append("p")
+    .attr("class", "SearchBar")
+    .text("Search By name:");
+
+d3.select(".SearchBar")
+  .append("input")
+    .attr("class", "SearchBar")
+    .attr("id", "search")
+    .attr("type", "text")
+    .attr("placeholder", "Search...");
+
 // get the data
 d3.csv("data/force.csv", function(error, links) {
+
+/**  search functionality **/
+d3.select("#search")
+  .on("keyup", function() { // filter according to key pressed
+    var newLinks = links,
+        text = this.value.trim();
+
+    var searchResults = newLinks.map(function(r) {
+      var regex = new RegExp("^" + text + ".*", "i");
+      if (regex.test(r.source)) { // if there are any results
+        return regex.exec(r.source)[0]; // return them to searchResults
+      }
+    })
+
+    // filter blank entries from searchResults
+      searchResults = searchResults.filter(function(r){
+        return r != undefined;
+      })
+
+      // filter dataset with searchResults
+      newLinks = searchResults.map(function(r) {
+         return data.filter(function(p) {
+          return p.source.indexOf(r) != -1;
+        })
+      })
 
 var nodes = {};
 
 // Compute the distinct nodes from the links.
-links.forEach(function(link) {
+newLinks.forEach(function(link) {
     link.source = nodes[link.source] ||
         (nodes[link.source] = {name: link.source});
     link.target = nodes[link.target] ||
@@ -45,7 +94,7 @@ var width = 960,
 
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
-    .links(links)
+    .links(newLinks)
     .size([width, height])
     .linkDistance(60)
     .charge(-300)
