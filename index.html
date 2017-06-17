@@ -111,7 +111,7 @@ var headers = table.select("tr").selectAll("th")
 
 var rows, row_entries, row_entries_no_anchor, row_entries_with_anchor;
 
-d3.json("data.json", function(data) { // loading data from server
+d3.json("data/data.json", function(data) { // loading data from server
 
   // draw table body with rows
   table.append("tbody")
